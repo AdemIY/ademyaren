@@ -1,7 +1,7 @@
 import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildManifestJson, buildRobotsTxt, buildSitemapXml, renderHtmlTemplate } from "./site-output.mjs";
+import { buildCname, buildManifestJson, buildRobotsTxt, buildSitemapXml, renderHtmlTemplate } from "./site-output.mjs";
 
 const currentFile = fileURLToPath(import.meta.url);
 const rootDir = resolve(dirname(currentFile), "..");
@@ -29,6 +29,11 @@ async function build() {
   await writeFile(join(docsDir, "robots.txt"), buildRobotsTxt(), "utf8");
   await writeFile(join(docsDir, "sitemap.xml"), buildSitemapXml(), "utf8");
   await writeFile(join(docsDir, "site.webmanifest"), buildManifestJson(), "utf8");
+  const cname = buildCname();
+
+  if (cname) {
+    await writeFile(join(docsDir, "CNAME"), cname, "utf8");
+  }
 }
 
 build().catch((error) => {

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ademiy.github.io/ademyaren/sitemap.xml
+Sitemap: https://ademyaren.de/sitemap.xml

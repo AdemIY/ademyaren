@@ -1,7 +1,7 @@
 export const siteConfig = {
   siteName: "Adem Yaren",
   shortName: "Adem",
-  siteUrl: "https://ademiy.github.io/ademyaren",
+  siteUrl: "https://ademyaren.de",
   email: "ademyrn1@gmail.com",
   language: "de",
   locale: "de_DE",

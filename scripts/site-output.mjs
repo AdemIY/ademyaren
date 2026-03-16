@@ -17,6 +17,16 @@ function getSiteUrl() {
   return rawUrl ? trimTrailingSlashes(rawUrl) : "";
 }
 
+export function getCustomDomain() {
+  const siteUrl = getSiteUrl();
+
+  if (!siteUrl) {
+    return "";
+  }
+
+  return new URL(siteUrl).hostname;
+}
+
 function toAbsoluteUrl(pathname) {
   const siteUrl = getSiteUrl();
 
@@ -114,4 +124,9 @@ export function buildManifestJson() {
     null,
     2,
   )}\n`;
+}
+
+export function buildCname() {
+  const customDomain = getCustomDomain();
+  return customDomain ? `${customDomain}\n` : "";
 }
