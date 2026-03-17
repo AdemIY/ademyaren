@@ -12,6 +12,7 @@ export const siteConfig = {
   ogDescription:
     "Persönliche Website von Adem Yaren mit Fokus auf Weblösungen, E-Commerce, langfristige Zusammenarbeit und ehrlichen Austausch.",
   ogImagePath: "/assets/images/og/og-cover.png",
+  goatcounterUrl: "https://ademy.goatcounter.com/count",
   navigation: [
     { label: "Start", href: "#start" },
     { label: "Leistungen", href: "#leistungen" },

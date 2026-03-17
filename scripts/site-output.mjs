@@ -45,6 +45,7 @@ function buildOptionalTag(markup) {
 export function renderHtmlTemplate(template) {
   const canonicalUrl = toAbsoluteUrl("/");
   const ogImageUrl = siteConfig.ogImagePath ? toAbsoluteUrl(siteConfig.ogImagePath) : "";
+  const goatcounterUrl = siteConfig.goatcounterUrl?.trim() ?? "";
   const replacements = {
     LANGUAGE: escapeAttribute(siteConfig.language),
     SITE_NAME: escapeHtml(siteConfig.siteName),
@@ -62,6 +63,11 @@ export function renderHtmlTemplate(template) {
     ),
     OG_IMAGE_TAG: buildOptionalTag(
       ogImageUrl ? `<meta property="og:image" content="${escapeAttribute(ogImageUrl)}" />` : "",
+    ),
+    ANALYTICS_TAG: buildOptionalTag(
+      goatcounterUrl
+        ? `<script data-goatcounter="${escapeAttribute(goatcounterUrl)}" async src="//gc.zgo.at/count.js"></script>`
+        : "",
     ),
     EMAIL: escapeHtml(siteConfig.email),
     MAILTO_EMAIL: escapeAttribute(`mailto:${siteConfig.email}`),
