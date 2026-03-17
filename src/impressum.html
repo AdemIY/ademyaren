@@ -9,15 +9,76 @@
       content="Vorläufige Impressumsseite der persönlichen Website von {{SITE_NAME}}."
     />
     <meta name="theme-color" content="{{THEME_COLOR}}" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("site-theme");
+          const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          const theme = storedTheme === "light" || storedTheme === "dark" ? storedTheme : systemTheme;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch {
+          document.documentElement.dataset.theme = "light";
+          document.documentElement.style.colorScheme = "light";
+        }
+      })();
+    </script>
     <link rel="icon" href="./assets/icons/ui/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
   </head>
   <body class="bg-canvas text-ink antialiased">
     <main class="container-shell section-shell max-w-3xl">
-      <a href="./index.html" class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600">
-        {{SITE_NAME}}
-      </a>
+      <div class="flex items-center justify-between gap-4">
+        <a href="./index.html" class="site-mark">
+          {{SITE_NAME}}
+        </a>
+        <button
+          type="button"
+          class="theme-toggle theme-toggle-inline"
+          data-theme-toggle
+          role="switch"
+          aria-checked="false"
+          aria-label="Darstellung umschalten"
+        >
+          <span class="theme-toggle-icons" aria-hidden="true">
+            <svg
+              class="theme-toggle-icon theme-toggle-icon-sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3.5"></circle>
+              <path d="M12 2.75v2.5"></path>
+              <path d="M12 18.75v2.5"></path>
+              <path d="M2.75 12h2.5"></path>
+              <path d="M18.75 12h2.5"></path>
+              <path d="M5.45 5.45l1.8 1.8"></path>
+              <path d="M16.75 16.75l1.8 1.8"></path>
+              <path d="M5.45 18.55l1.8-1.8"></path>
+              <path d="M16.75 7.25l1.8-1.8"></path>
+            </svg>
+            <svg
+              class="theme-toggle-icon theme-toggle-icon-moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 14.5A6.5 6.5 0 1 1 9.5 6a5.5 5.5 0 0 0 8.5 8.5Z"></path>
+            </svg>
+          </span>
+          <span class="theme-toggle-copy">
+            <span class="theme-toggle-label">Modus</span>
+            <span class="theme-toggle-state" data-theme-toggle-state>Hell</span>
+          </span>
+        </button>
+      </div>
 
       <section class="mt-10 space-y-6">
         <p class="section-kicker">Impressum</p>
@@ -53,5 +114,6 @@
         <a href="./datenschutz.html" class="button-secondary">Datenschutz ansehen</a>
       </div>
     </main>
+    <script type="module" src="./assets/js/theme.js"></script>
   </body>
 </html>

@@ -6,11 +6,11 @@ export const siteConfig = {
   language: "de",
   locale: "de_DE",
   themeColor: "#f7f1e8",
-  pageTitle: "Adem Yaren | Webentwicklung, technische Zusammenarbeit und fachlicher Austausch",
+  pageTitle: "Adem Yaren | Weblösungen, Onlineshops und Zusammenarbeit",
   metaDescription:
-    "Persönliche Onepage-Website für Webentwicklung, technische Zusammenarbeit, Projektunterstützung und fachlichen Austausch.",
+    "Ich entwickle individuelle Websites, Onlineshops und digitale Lösungen für Gründer, kleine Unternehmen und Macher in ganz Deutschland.",
   ogDescription:
-    "Professionelle persönliche Onepage-Website mit Fokus auf Dienstleistungen, Projekte, aktuelle Themen und Kontakt.",
+    "Persönliche Website von Adem Yaren mit Fokus auf Weblösungen, E-Commerce, langfristige Zusammenarbeit und ehrlichen Austausch.",
   ogImagePath: "",
   navigation: [
     { label: "Start", href: "#start" },

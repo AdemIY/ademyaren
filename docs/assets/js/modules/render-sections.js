@@ -5,25 +5,35 @@ import { techStackGroups } from "../../../data/tech-stack.js";
 import { socialLinks } from "../../../data/social-links.js";
 import { setHTML } from "./dom-helpers.js";
 
+function getRevealDelayClass(index) {
+  const classes = ["", " reveal-delay-1", " reveal-delay-2", " reveal-delay-3"];
+  return classes[index % classes.length];
+}
+
+function renderSocialIcon(linkId) {
+  if (linkId === "instagram") {
+    return `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3.75" y="3.75" width="16.5" height="16.5" rx="4.5"></rect>
+        <circle cx="12" cy="12" r="3.5"></circle>
+        <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"></circle>
+      </svg>
+    `;
+  }
+
+  return "";
+}
+
 function renderServices() {
   return services
     .map(
-      (service) => `
-        <article class="card-surface h-full">
-          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">${service.label}</p>
-          <h3 class="mt-4 text-2xl font-semibold tracking-tight text-ink">${service.title}</h3>
-          <p class="mt-4 text-sm leading-7 text-stone-600">${service.description}</p>
-          <ul class="mt-6 space-y-3 text-sm leading-7 text-stone-600">
-            ${service.useCases
-              .map(
-                (item) => `
-                  <li class="flex gap-3">
-                    <span class="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-accent"></span>
-                    <span>${item}</span>
-                  </li>
-                `,
-              )
-              .join("")}
+      (service, index) => `
+        <article class="editorial-entry reveal${getRevealDelayClass(index)}">
+          <p class="panel-kicker">${service.label}</p>
+          <h3 class="editorial-title">${service.title}</h3>
+          <p class="editorial-copy">${service.description}</p>
+          <ul class="editorial-list">
+            ${service.useCases.map((item) => `<li>${item}</li>`).join("")}
           </ul>
         </article>
       `,
@@ -34,7 +44,7 @@ function renderServices() {
 function renderProjects() {
   return projects
     .map(
-      (project) => {
+      (project, index) => {
         const projectAction = project.url
           ? `
             <a
@@ -52,19 +62,17 @@ function renderProjects() {
           `;
 
         return `
-        <article class="card-surface h-full">
+        <article class="editorial-entry reveal${getRevealDelayClass(index)}">
           <div class="flex items-start justify-between gap-4">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">${project.purpose}</p>
-              <h3 class="mt-3 text-2xl font-semibold tracking-tight text-ink">${project.title}</h3>
+              <p class="panel-kicker">${project.purpose}</p>
+              <h3 class="editorial-title">${project.title}</h3>
             </div>
             ${projectAction}
           </div>
           <p class="mt-4 text-sm font-medium text-stone-700">${project.shortContext}</p>
-          <p class="mt-4 text-sm leading-7 text-stone-600">${project.description}</p>
-          <div class="mt-6 flex flex-wrap gap-2">
-            ${project.stack.map((item) => `<span class="tag">${item}</span>`).join("")}
-          </div>
+          <p class="editorial-copy">${project.description}</p>
+          <p class="editorial-meta"><span class="font-medium text-stone-700">Schwerpunkte:</span> ${project.stack.join(", ")}</p>
         </article>
       `;
       },
@@ -75,12 +83,12 @@ function renderProjects() {
 function renderTopics() {
   return topics
     .map(
-      (topic) => `
-        <article class="card-surface h-full">
-          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">${topic.category}</p>
-          <h3 class="mt-4 text-xl font-semibold tracking-tight text-ink">${topic.title}</h3>
-          <p class="mt-4 text-sm leading-7 text-stone-600">${topic.description}</p>
-          <p class="mt-6 text-sm font-medium text-stone-700">${topic.relevance}</p>
+      (topic, index) => `
+        <article class="editorial-note reveal${getRevealDelayClass(index)}">
+          <p class="panel-kicker">${topic.category}</p>
+          <h3 class="editorial-subtitle">${topic.title}</h3>
+          <p class="editorial-copy">${topic.description}</p>
+          <p class="mt-5 text-sm font-medium text-stone-700">${topic.relevance}</p>
         </article>
       `,
     )
@@ -90,21 +98,21 @@ function renderTopics() {
 function renderTechStack() {
   return techStackGroups
     .map(
-      (group) => `
-        <article class="card-surface h-full">
-          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">${group.label}</p>
-          <h3 class="mt-4 text-2xl font-semibold tracking-tight text-ink">${group.title}</h3>
-          <p class="mt-4 text-sm leading-7 text-stone-600">${group.description}</p>
-          <div class="mt-6 flex flex-wrap gap-2">
-            ${group.items.map((item) => `<span class="tag">${item}</span>`).join("")}
-          </div>
+      (group, index) => `
+        <article class="editorial-entry reveal${getRevealDelayClass(index)}">
+          <p class="panel-kicker">${group.label}</p>
+          <h3 class="editorial-title">${group.title}</h3>
+          <p class="editorial-copy">${group.description}</p>
+          <ul class="editorial-inline-list">
+            ${group.items.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
         </article>
       `,
     )
     .join("");
 }
 
-function renderSocialLinks(context) {
+function renderSocialLinks() {
   const publicLinks = socialLinks.filter((link) => link.url);
 
   if (!publicLinks.length) {
@@ -112,19 +120,25 @@ function renderSocialLinks(context) {
   }
 
   return publicLinks
-    .map(
-      (link) => `
+    .map((link) => {
+      const icon = renderSocialIcon(link.id);
+      const labelMarkup = icon
+        ? `<span class="sr-only">${link.label}</span>`
+        : `<span class="social-link-fallback">${link.label}</span>`;
+
+      return `
         <a
           href="${link.url}"
-          class="${context === "footer" ? "footer-link" : "button-secondary"}"
+          class="social-link"
           target="_blank"
           rel="noreferrer"
           aria-label="${link.label} extern aufrufen"
         >
-          ${link.label}
+          <span class="social-link-mark" aria-hidden="true">${icon}</span>
+          ${labelMarkup}
         </a>
-      `,
-    )
+      `;
+    })
     .join("");
 }
 
@@ -133,7 +147,7 @@ export function renderDynamicSections() {
   setHTML('[data-render="projects"]', renderProjects());
   setHTML('[data-render="topics"]', renderTopics());
   setHTML('[data-render="tech-stack"]', renderTechStack());
-  setHTML('[data-render="contact-social-links"]', renderSocialLinks("contact"));
-  setHTML('[data-render="footer-social-links"]', renderSocialLinks("footer"));
-  setHTML('[data-render="mobile-social-links"]', renderSocialLinks("mobile"));
+  setHTML('[data-render="contact-social-links"]', renderSocialLinks());
+  setHTML('[data-render="footer-social-links"]', renderSocialLinks());
+  setHTML('[data-render="mobile-social-links"]', renderSocialLinks());
 }

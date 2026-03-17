@@ -1,34 +1,34 @@
 export const topics = [
   {
     id: "topic-01",
-    category: "Aktueller Fokus",
-    title: "Service-orientierte Onepager mit klarer Conversion-Führung",
+    category: "Positionierung",
+    title: "Digitale Auftritte, die sofort verständlich sind",
     description:
-      "Wie Positionierung, Relevanz und Kontaktaufnahme schneller greifen.",
-    relevance: "Relevant für neue Präsenzen und Relaunches.",
+      "Wie Gründer und kleine Unternehmen online klarer zeigen, wofür sie stehen und warum man mit ihnen sprechen sollte.",
+    relevance: "Wichtig für Vertrauen, Sichtbarkeit und einen guten ersten Eindruck.",
   },
   {
     id: "topic-02",
-    category: "Zusammenarbeit",
-    title: "Technische Schnittstellen zwischen Design, Content und Umsetzung",
+    category: "E-Commerce",
+    title: "Shops, die nicht nur gut aussehen",
     description:
-      "Wie Informationsarchitektur, visuelle Ruhe und technische Struktur zusammenpassen.",
-    relevance: "Relevant für Teams mit weniger Reibung im Prozess.",
+      "Wie Struktur, Tempo und saubere Nutzerführung im Shop zusammenwirken.",
+    relevance: "Wichtig für Conversion, Vertrauen und Alltag im Shop.",
   },
   {
     id: "topic-03",
-    category: "Wartbarkeit",
-    title: "Strukturierte Inhalte in statischen Projekten",
+    category: "Zusammenarbeit",
+    title: "Langfristige Zusammenarbeit statt Einmalprojekt",
     description:
-      "Saubere Content-Strukturen auch ohne CMS.",
-    relevance: "Relevant für kleine Websites mit klarer Pflegebasis.",
+      "Warum gute Ergebnisse oft dann entstehen, wenn jemand nicht nur umsetzt, sondern länger mitdenkt.",
+    relevance: "Wichtig für Gründer und Teams, die nachhaltig aufbauen wollen.",
   },
   {
     id: "topic-04",
-    category: "Qualität",
-    title: "Reduzierte Frontends mit sauberer Accessibility-Basis",
+    category: "Verbindung",
+    title: "Verbindungen, die Projekte stärker machen",
     description:
-      "Warum ruhige Interfaces oft besser funktionieren.",
-    relevance: "Relevant für professionelle Seiten auf Mobile und Desktop.",
+      "Wie gute Menschen, klare Rollen und ehrlicher Austausch ein Projekt nach vorn bringen.",
+    relevance: "Wichtig für Macher, die mehr als nur einen Dienstleister suchen.",
   },
 ];

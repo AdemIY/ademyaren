@@ -1,3 +1,7 @@
 export const socialLinks = [
-  // Reale Profile hier ergaenzen, sobald sie verfuegbar sind.
+  {
+    id: "instagram",
+    label: "Instagram",
+    url: "https://www.instagram.de/ademyaren.de",
+  },
 ];

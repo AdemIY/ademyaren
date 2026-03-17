@@ -1,38 +1,38 @@
 export const services = [
   {
-    id: "webentwicklung",
-    label: "Umsetzung",
-    title: "Webentwicklung",
+    id: "websites",
+    label: "Auftritt",
+    title: "Websites & digitale Auftritte",
     description:
-      "Websites, Landingpages und Frontends mit klarer Struktur und sauberer Umsetzung.",
+      "Websites und Landingpages, die klar zeigen, wer du bist, was du anbietest und warum man mit dir sprechen sollte.",
     useCases: [
-      "Neue Seiten und Landingpages umsetzen.",
-      "Bestehende Frontends weiterentwickeln.",
-      "UX, Struktur und Performance verbessern.",
+      "Neue Websites und Landingpages umsetzen.",
+      "Bestehende Auftritte strukturieren und schärfen.",
+      "Inhalte, Nutzerführung und Technik sauber zusammenbringen.",
     ],
   },
   {
-    id: "projektunterstuetzung",
-    label: "Projektarbeit",
-    title: "Technische Zusammenarbeit & Projektunterstützung",
+    id: "commerce",
+    label: "Commerce",
+    title: "Onlineshops & E-Commerce-Frontend",
     description:
-      "Technische Unterstützung für laufende Projekte und Teams.",
+      "Shopify-, Magento- und Frontend-Arbeit für Shops, die nicht nur laufen, sondern klarer und stärker werden sollen.",
     useCases: [
-      "Engpässe in der Umsetzung auffangen.",
-      "Teilbereiche eigenständig übernehmen.",
-      "Design, Produkt und Entwicklung sauber verbinden.",
+      "Shopify-Shops anpassen und weiterentwickeln.",
+      "Magento-2-Frontends im Hyvä Theme umsetzen.",
+      "Shop-Oberflächen sauber an Marke, Struktur und Conversion ausrichten.",
     ],
   },
   {
-    id: "wissenstransfer",
-    label: "Sparring",
-    title: "Wissenstransfer & fachlicher Austausch",
+    id: "zusammenarbeit",
+    label: "Zusammenarbeit",
+    title: "Technische Zusammenarbeit & Weiterentwicklung",
     description:
-      "Sparring, Einordnung und Austausch zu technischen Fragen.",
+      "Für Projekte, die mehr brauchen als reine Umsetzung: mitdenken, sauber arbeiten und langfristig dranbleiben.",
     useCases: [
-      "Entscheidungen schneller greifbar machen.",
-      "Frontend- und Projektfragen gemeinsam sortieren.",
-      "Erfahrungswissen praxisnah teilen.",
+      "Bestehende Projekte weiterentwickeln.",
+      "Technische Engpässe im Alltag auffangen.",
+      "Zwischen Design, Technik und Umsetzung verlässlich mitziehen.",
     ],
   },
 ];

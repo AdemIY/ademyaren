@@ -3,16 +3,30 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Adem Yaren | Webentwicklung, technische Zusammenarbeit und fachlicher Austausch</title>
-    <meta name="description" content="Persönliche Onepage-Website für Webentwicklung, technische Zusammenarbeit, Projektunterstützung und fachlichen Austausch." />
+    <title>Adem Yaren | Weblösungen, Onlineshops und Zusammenarbeit</title>
+    <meta name="description" content="Ich entwickle individuelle Websites, Onlineshops und digitale Lösungen für Gründer, kleine Unternehmen und Macher in ganz Deutschland." />
     <meta name="theme-color" content="#f7f1e8" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="de_DE" />
-    <meta property="og:title" content="Adem Yaren | Webentwicklung, technische Zusammenarbeit und fachlicher Austausch" />
-    <meta property="og:description" content="Professionelle persönliche Onepage-Website mit Fokus auf Dienstleistungen, Projekte, aktuelle Themen und Kontakt." />
+    <meta property="og:title" content="Adem Yaren | Weblösungen, Onlineshops und Zusammenarbeit" />
+    <meta property="og:description" content="Persönliche Website von Adem Yaren mit Fokus auf Weblösungen, E-Commerce, langfristige Zusammenarbeit und ehrlichen Austausch." />
     <meta property="og:url" content="https://ademyaren.de/" />
     
     <link rel="canonical" href="https://ademyaren.de/" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem("site-theme");
+          const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          const theme = storedTheme === "light" || storedTheme === "dark" ? storedTheme : systemTheme;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch {
+          document.documentElement.dataset.theme = "light";
+          document.documentElement.style.colorScheme = "light";
+        }
+      })();
+    </script>
     <link rel="icon" href="./assets/icons/ui/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
@@ -30,7 +44,7 @@
       data-site-header
     >
       <div class="container-shell flex min-h-20 items-center justify-between gap-6">
-        <a href="#start" class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600">Adem Yaren</a>
+        <a href="#start" class="site-mark">Adem Yaren</a>
 
         <nav aria-label="Hauptnavigation" class="hidden items-center gap-8 md:flex">
           <a href="#start" class="nav-link" data-nav-link>Start</a>
@@ -41,25 +55,71 @@
           <a href="#kontakt" class="nav-link" data-nav-link>Kontakt</a>
         </nav>
 
-        <div class="hidden md:block">
+        <div class="hidden items-center gap-3 md:flex">
+          <button
+            type="button"
+            class="theme-toggle theme-toggle-desktop"
+            data-theme-toggle
+            role="switch"
+            aria-checked="false"
+            aria-label="Darstellung umschalten"
+          >
+            <span class="theme-toggle-icons" aria-hidden="true">
+              <svg
+                class="theme-toggle-icon theme-toggle-icon-sun"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="3.5"></circle>
+                <path d="M12 2.75v2.5"></path>
+                <path d="M12 18.75v2.5"></path>
+                <path d="M2.75 12h2.5"></path>
+                <path d="M18.75 12h2.5"></path>
+                <path d="M5.45 5.45l1.8 1.8"></path>
+                <path d="M16.75 16.75l1.8 1.8"></path>
+                <path d="M5.45 18.55l1.8-1.8"></path>
+                <path d="M16.75 7.25l1.8-1.8"></path>
+              </svg>
+              <svg
+                class="theme-toggle-icon theme-toggle-icon-moon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 14.5A6.5 6.5 0 1 1 9.5 6a5.5 5.5 0 0 0 8.5 8.5Z"></path>
+              </svg>
+            </span>
+            <span class="theme-toggle-copy">
+              <span class="theme-toggle-state" data-theme-toggle-state>Hell</span>
+            </span>
+          </button>
           <a href="#kontakt" class="button-primary">Kontakt</a>
         </div>
 
-        <button
-          type="button"
-          class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-stone-300 text-stone-700 transition hover:border-stone-400 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:hidden"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-          aria-label="Menü öffnen"
-          data-menu-button
-        >
-          <span class="sr-only">Menü öffnen</span>
-          <span aria-hidden="true" class="space-y-1.5">
-            <span class="block h-0.5 w-5 rounded-full bg-current"></span>
-            <span class="block h-0.5 w-5 rounded-full bg-current"></span>
-            <span class="block h-0.5 w-5 rounded-full bg-current"></span>
-          </span>
-        </button>
+        <div class="flex items-center md:hidden">
+          <button
+            type="button"
+            class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-stone-300 text-stone-700 transition hover:border-stone-400 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Menü öffnen"
+            data-menu-button
+          >
+            <span class="sr-only">Menü öffnen</span>
+            <span aria-hidden="true" class="space-y-1.5">
+              <span class="block h-0.5 w-5 rounded-full bg-current"></span>
+              <span class="block h-0.5 w-5 rounded-full bg-current"></span>
+              <span class="block h-0.5 w-5 rounded-full bg-current"></span>
+            </span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -75,7 +135,7 @@
       data-mobile-menu
     >
       <div class="flex items-center justify-between gap-4">
-        <a href="#start" class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600">Adem Yaren</a>
+        <a href="#start" class="site-mark">Adem Yaren</a>
         <button
           type="button"
           class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-stone-300 text-stone-700 transition hover:border-stone-400 hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
@@ -98,8 +158,53 @@
       </nav>
 
       <div class="mt-auto space-y-4 border-t border-stone-200 pt-8">
+        <button
+          type="button"
+          class="theme-toggle theme-toggle-menu"
+          data-theme-toggle
+          role="switch"
+          aria-checked="false"
+          aria-label="Darstellung umschalten"
+        >
+          <span class="theme-toggle-label">Darstellung</span>
+          <span class="theme-toggle-meta">
+            <span class="theme-toggle-icons" aria-hidden="true">
+              <svg
+                class="theme-toggle-icon theme-toggle-icon-sun"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="3.5"></circle>
+                <path d="M12 2.75v2.5"></path>
+                <path d="M12 18.75v2.5"></path>
+                <path d="M2.75 12h2.5"></path>
+                <path d="M18.75 12h2.5"></path>
+                <path d="M5.45 5.45l1.8 1.8"></path>
+                <path d="M16.75 16.75l1.8 1.8"></path>
+                <path d="M5.45 18.55l1.8-1.8"></path>
+                <path d="M16.75 7.25l1.8-1.8"></path>
+              </svg>
+              <svg
+                class="theme-toggle-icon theme-toggle-icon-moon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 14.5A6.5 6.5 0 1 1 9.5 6a5.5 5.5 0 0 0 8.5 8.5Z"></path>
+              </svg>
+            </span>
+            <span class="theme-toggle-state" data-theme-toggle-state>Hell</span>
+          </span>
+        </button>
         <a href="#kontakt" class="button-primary w-full justify-center" data-mobile-nav-link>
-          Projekt anfragen
+          Gespräch starten
         </a>
         <a
           href="mailto:ademyrn1@gmail.com"
@@ -114,64 +219,75 @@
 
     <main id="main-content">
       <section id="start" class="scroll-mt-28">
-        <div class="container-shell section-shell grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-          <div class="max-w-3xl">
-            <p class="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-stone-500">
-              Webentwicklung & Zusammenarbeit
-            </p>
-            <h1 class="text-balance font-display text-5xl leading-none text-ink sm:text-6xl lg:text-7xl">
-              Ich entwickle klare Websites und digitale Oberflächen.
-            </h1>
-            <p class="mt-6 max-w-2xl text-lg leading-8 text-stone-600 md:text-xl">
-              Für Relaunches, neue Seiten und technische Unterstützung mit Fokus auf Struktur, Tempo und saubere Umsetzung.
-            </p>
-            <div class="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a href="#kontakt" class="button-primary">Projekt anfragen</a>
-              <a href="#projekte" class="button-secondary">Projekte ansehen</a>
+        <div class="container-shell section-shell">
+          <div class="border-y border-stone-300 py-8 md:py-10 lg:py-12">
+            <div class="hero-topline reveal">
+              <span>Adem Yaren</span>
+              <span>Für Gründer, kleine Unternehmen und Macher in ganz Deutschland</span>
             </div>
-            <ul class="mt-10 grid gap-4 text-sm text-stone-600 sm:grid-cols-3">
-              <li class="card-compact">
-                <span class="mb-2 block font-semibold text-ink">Klarer Fokus</span>
-                Klare Leistungen, Projekte und Kontaktwege.
-              </li>
-              <li class="card-compact">
-                <span class="mb-2 block font-semibold text-ink">Business-nah</span>
-                Technik mit Blick auf Nutzen und Zusammenarbeit.
-              </li>
-              <li class="card-compact">
-                <span class="mb-2 block font-semibold text-ink">Wartbar gedacht</span>
-                Strukturiert, erweiterbar und pflegeleicht.
-              </li>
-            </ul>
-          </div>
 
-          <div class="card-surface relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-amber-100/70 via-white to-stone-100"></div>
-            <div class="relative space-y-8">
-              <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">Aktueller Fokus</p>
-                <h2 class="mt-3 text-2xl font-semibold tracking-tight text-ink">
-                  Digitale Produkte klarer und nutzbarer machen.
-                </h2>
+            <div class="hero-grid">
+              <div class="max-w-4xl reveal reveal-delay-1">
+                <h1 class="text-balance font-display text-5xl leading-none text-ink sm:text-6xl lg:text-8xl">
+                  Wenn du etwas aufbaust,
+                  <span class="block pt-2">baue ich die Website, den Shop oder die digitale Lösung dazu.</span>
+                </h1>
+                <p class="mt-6 max-w-3xl text-lg leading-8 text-stone-700 md:text-xl">
+                  Ich arbeite direkt mit Gründern, kleinen Unternehmen und Machern, die online nicht einfach nur präsent sein wollen, sondern etwas Belastbares brauchen.
+                </p>
+                <p class="mt-4 max-w-3xl text-base leading-8 text-stone-600 md:text-lg">
+                  Persönlich im Kontakt, sauber in der Umsetzung und mit dem Blick auf Zusammenarbeit, die länger trägt als ein schneller Launch.
+                </p>
+
+                <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                  <a href="#kontakt" class="button-primary">Gespräch starten</a>
+                  <a href="#projekte" class="button-secondary">Praxis ansehen</a>
+                </div>
               </div>
-              <dl class="grid gap-5 text-sm text-stone-600 sm:grid-cols-2">
-                <div>
-                  <dt class="font-semibold text-ink">Arbeitsweise</dt>
-                  <dd class="mt-1">Pragmatisch, direkt und sauber umgesetzt.</dd>
+
+              <div class="hero-aside reveal reveal-delay-2">
+                <div class="space-y-6">
+                  <div class="border-b border-stone-200 pb-6">
+                    <p class="panel-kicker">Direkte Zusammenarbeit</p>
+                    <p class="mt-3 text-base leading-7 text-stone-700">
+                      Keine Zwischenebene. Keine Standard-Abwicklung. Wenn wir zusammenarbeiten, sprichst du direkt mit mir.
+                    </p>
+                  </div>
+
+                  <div class="border-b border-stone-200 pb-6">
+                    <p class="panel-kicker">Womit ich helfe</p>
+                    <ul class="mt-3 space-y-2 text-sm leading-7 text-stone-600">
+                      <li>Websites und Landingpages</li>
+                      <li>Onlineshops mit Shopify oder Magento</li>
+                      <li>Weiterentwicklung, Frontend und APIs</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p class="panel-kicker">Worauf ich achte</p>
+                    <ul class="mt-3 space-y-2 text-sm leading-7 text-stone-600">
+                      <li>Vertrauen vor Show</li>
+                      <li>Tempo ohne Chaos</li>
+                      <li>Langfristig statt einmalig</li>
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <dt class="font-semibold text-ink">Zusammenarbeit</dt>
-                  <dd class="mt-1">Von punktueller Hilfe bis zur engen Mitarbeit.</dd>
-                </div>
-                <div>
-                  <dt class="font-semibold text-ink">Schwerpunkte</dt>
-                  <dd class="mt-1">Frontend, Struktur und Weiterentwicklung.</dd>
-                </div>
-                <div>
-                  <dt class="font-semibold text-ink">Ziel</dt>
-                  <dd class="mt-1">Klar nutzbare digitale Erlebnisse.</dd>
-                </div>
-              </dl>
+              </div>
+            </div>
+
+            <div class="hero-meta reveal reveal-delay-3">
+              <div>
+                <p class="panel-kicker">Fokus</p>
+                <p class="mt-2 leading-7">Websites, Onlineshops und technische Weiterentwicklung für reale Projekte mit Zug nach vorn.</p>
+              </div>
+              <div>
+                <p class="panel-kicker">Systeme</p>
+                <p class="mt-2 leading-7">Shopify, Magento 2, Hyvä, Tailwind, Alpine.js, PHP, Symfony und APIs.</p>
+              </div>
+              <div>
+                <p class="panel-kicker">Ziel</p>
+                <p class="mt-2 leading-7">Ein Auftritt, der trägt, und Zusammenarbeit, die auch nach dem Start offen bleibt.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -179,13 +295,13 @@
 
       <section id="leistungen" class="scroll-mt-28 border-t border-stone-200/70">
         <div class="container-shell section-shell">
-          <div class="section-intro">
+          <div class="section-intro reveal">
             <p class="section-kicker">Leistungen</p>
-            <h2 class="section-title">Wobei ich helfen kann.</h2>
-            <p class="section-lead">Drei Bereiche, in denen ich direkt unterstützen kann.</p>
+            <h2 class="section-title">Was ich für dich umsetzen kann.</h2>
+            <p class="section-lead">Wenn du etwas aufbaust, helfe ich dir dabei, digital klar und belastbar aufzutreten.</p>
           </div>
 
-          <div class="grid gap-6 lg:grid-cols-3" data-render="services"></div>
+          <div class="grid gap-8 lg:grid-cols-3" data-render="services"></div>
 
           <div class="mt-10 flex justify-start">
             <a href="#kontakt" class="button-secondary">Zusammenarbeit besprechen</a>
@@ -195,75 +311,74 @@
 
       <section id="projekte" class="scroll-mt-28 border-t border-stone-200/70">
         <div class="container-shell section-shell">
-          <div class="section-intro">
-            <p class="section-kicker">Projekte</p>
-            <h2 class="section-title">Ausgewählte Projekte.</h2>
-            <p class="section-lead">Beispiele für typische Aufgaben, Umsetzungen und Schwerpunkte.</p>
+          <div class="section-intro reveal">
+            <p class="section-kicker">Praxis</p>
+            <h2 class="section-title">Woran ich bisher gearbeitet habe.</h2>
+            <p class="section-lead">Ein ehrlicher Einblick in Aufgaben, Systeme und Projektfelder aus Ausbildung und eigener Praxis.</p>
           </div>
 
-          <div class="grid gap-6 xl:grid-cols-2" data-render="projects"></div>
+          <div class="grid gap-8 xl:grid-cols-2" data-render="projects"></div>
 
           <div class="mt-10 flex justify-start">
-            <a href="#kontakt" class="button-secondary">Ähnliches Projekt anfragen</a>
+            <a href="#kontakt" class="button-secondary">Ähnliches Projekt besprechen</a>
           </div>
         </div>
       </section>
 
       <section id="aktuelle-themen" class="scroll-mt-28 border-t border-stone-200/70">
         <div class="container-shell section-shell">
-          <div class="section-intro">
+          <div class="section-intro reveal">
             <p class="section-kicker">Aktuelle Themen</p>
-            <h2 class="section-title">Was mich aktuell beschäftigt.</h2>
-            <p class="section-lead">Kurz, kuratiert und direkt aus der Praxis.</p>
+            <h2 class="section-title">Was mich gerade antreibt.</h2>
+            <p class="section-lead">Die Themen, an denen ich fachlich und gedanklich gerade arbeite.</p>
           </div>
 
-          <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4" data-render="topics"></div>
+          <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-4" data-render="topics"></div>
         </div>
       </section>
 
       <section id="tech-stack" class="scroll-mt-28 border-t border-stone-200/70">
         <div class="container-shell section-shell">
-          <div class="section-intro">
+          <div class="section-intro reveal">
             <p class="section-kicker">Tech-Stack</p>
-            <h2 class="section-title">Technologien, sinnvoll gruppiert.</h2>
-            <p class="section-lead">Ein kompakter Überblick über Tools und Schwerpunkte.</p>
+            <h2 class="section-title">Technologien, mit denen ich wirklich gearbeitet habe.</h2>
+            <p class="section-lead">Die technische Grundlage hinter meiner bisherigen Arbeit, ohne Buzzword-Show.</p>
           </div>
 
-          <div class="grid gap-6 lg:grid-cols-2" data-render="tech-stack"></div>
+          <div class="grid gap-8 lg:grid-cols-2" data-render="tech-stack"></div>
         </div>
       </section>
 
       <section id="ueber-mich" class="scroll-mt-28 border-t border-stone-200/70">
-        <div class="container-shell section-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-          <div class="space-y-5">
+        <div class="container-shell section-shell grid gap-10 lg:grid-cols-2">
+          <div class="space-y-5 reveal">
             <p class="section-kicker">Über mich</p>
-            <h2 class="section-title">Kurz zu mir.</h2>
+            <h2 class="section-title">Ich arbeite gern mit Menschen, die etwas vorhaben.</h2>
             <p class="text-base leading-8 text-stone-600 md:text-lg">
-              Ich entwickle digitale Seiten und Oberflächen mit Fokus auf Klarheit, Struktur und Nutzbarkeit.
+              Ich bin Adem Yaren. Mich reizt es, aus einer Idee etwas Greifbares zu machen: einen Auftritt, einen Shop oder eine Lösung, die nach außen klar wirkt und innen sauber aufgebaut ist.
             </p>
             <p class="text-base leading-8 text-stone-600 md:text-lg">
-              Besonders spannend finde ich die Schnittstellen zwischen Produkt, Design, Content und technischer Umsetzung.
+              Am meisten Spaß macht mir die Zusammenarbeit mit ambitionierten Gründern, kleinen Unternehmen und Machern. Ich suche keine kurzen Durchläufe, sondern Projekte und Gespräche, aus denen Vertrauen, Entwicklung und im besten Fall echte Verbindung entsteht.
             </p>
           </div>
 
-          <div class="card-surface">
-            <h3 class="text-xl font-semibold tracking-tight text-ink">Wie ich arbeite</h3>
-            <ul class="mt-6 space-y-4 text-sm leading-7 text-stone-600">
-              <li class="flex gap-3">
-                <span class="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-accent"></span>
-                Pragmatisch statt verspielt.
-              </li>
-              <li class="flex gap-3">
-                <span class="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-accent"></span>
-                Struktur und Wartbarkeit von Anfang an mitdenken.
-              </li>
-              <li class="flex gap-3">
-                <span class="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-accent"></span>
-                Saubere Umsetzung mit Blick auf den geschäftlichen Nutzen.
-              </li>
-            </ul>
+          <div class="editorial-aside reveal reveal-delay-1">
+            <div class="space-y-6">
+              <div class="editorial-aside-block">
+                <p class="panel-kicker">So arbeite ich</p>
+                <p class="mt-3 text-base leading-7 text-stone-700">Persönlich, direkt und ohne unnötige Agentursprache.</p>
+              </div>
+              <div class="editorial-aside-block">
+                <p class="panel-kicker">Technischer Blick</p>
+                <p class="mt-3 text-base leading-7 text-stone-700">Sauber umgesetzt, mit Blick auf Struktur, Pflege und das, was ein Projekt wirklich braucht.</p>
+              </div>
+              <div>
+                <p class="panel-kicker">Zusammenarbeit</p>
+                <p class="mt-3 text-base leading-7 text-stone-700">Langfristig gedacht, damit aus einem ersten Kontakt mehr entstehen kann als nur ein einzelner Auftrag.</p>
+              </div>
+            </div>
             <div class="mt-8">
-              <a href="#kontakt" class="button-secondary">Kontakt aufnehmen</a>
+              <a href="#kontakt" class="button-secondary">Gespräch starten</a>
             </div>
           </div>
         </div>
@@ -271,41 +386,42 @@
 
       <section id="kontakt" class="scroll-mt-28 border-t border-stone-200/70">
         <div class="container-shell section-shell">
-          <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div class="space-y-5">
+          <div class="grid gap-8 lg:grid-cols-2">
+            <div class="space-y-5 reveal">
               <p class="section-kicker">Kontakt</p>
-              <h2 class="section-title">Lass uns kurz und konkret sprechen.</h2>
+              <h2 class="section-title">Wenn du etwas vorhast, lass uns sprechen.</h2>
               <p class="text-base leading-8 text-stone-600 md:text-lg">
-                Wenn du ein Projekt, einen Relaunch oder technische Unterstützung planst, reicht eine kurze E-Mail.
+                Ob Website, Shop, technische Unterstützung oder einfach ein erster Austausch: Wenn du an etwas Ernsthaftem arbeitest, freue ich mich auf deine Nachricht.
               </p>
 
-              <div class="grid gap-4 sm:grid-cols-3">
-                <div class="card-compact">
-                  <span class="block font-semibold text-ink">Projektanfragen</span>
-                  Neue Seiten, Relaunches oder punktuelle Umsetzung.
+              <div class="editorial-rows">
+                <div class="editorial-row">
+                  <p class="panel-kicker">Projektaufbau</p>
+                  <p class="mt-2 text-base leading-7 text-stone-700">Websites, Shops und individuelle Weblösungen für Projekte mit echtem Vorhaben.</p>
                 </div>
-                <div class="card-compact">
-                  <span class="block font-semibold text-ink">Kooperationen</span>
-                  Zusammenarbeit mit Teams, Design oder Produkt.
+                <div class="editorial-row">
+                  <p class="panel-kicker">Zusammenarbeit</p>
+                  <p class="mt-2 text-base leading-7 text-stone-700">Unterstützung, die auch nach dem Start weitergeht, wenn sich ein Projekt entwickelt.</p>
                 </div>
-                <div class="card-compact">
-                  <span class="block font-semibold text-ink">Austausch</span>
-                  Sparring zu Struktur, UX und technischer Richtung.
+                <div class="editorial-row">
+                  <p class="panel-kicker">Austausch</p>
+                  <p class="mt-2 text-base leading-7 text-stone-700">Für Gründer und Macher, die lieber ein klares Gespräch führen als lange um den Punkt herumreden.</p>
                 </div>
               </div>
             </div>
 
-            <div class="card-surface">
-              <h3 class="text-xl font-semibold tracking-tight text-ink">Direkter Kontakt</h3>
-              <p class="mt-4 text-sm leading-7 text-stone-600">Am besten mit Kontext, Ziel und grobem Zeitrahmen.</p>
+            <div class="editorial-aside reveal reveal-delay-1">
+              <p class="panel-kicker">Direkter Kontakt</p>
+              <h3 class="mt-3 text-2xl font-semibold tracking-tight text-ink">Schreib mir, woran du arbeitest.</h3>
+              <p class="mt-4 text-sm leading-7 text-stone-600">Schreib mir kurz, woran du arbeitest, was du brauchst und wohin die Reise gehen soll.</p>
               <div class="mt-6 flex flex-col gap-4">
-                <a href="mailto:ademyrn1@gmail.com" class="button-primary justify-center">
+                <a href="mailto:ademyrn1@gmail.com" class="button-primary justify-center sm:w-fit">
                   ademyrn1@gmail.com
                 </a>
                 <div class="flex flex-wrap gap-3" data-render="contact-social-links"></div>
               </div>
               <p class="mt-6 text-sm leading-7 text-stone-600">
-                Falls noch keine öffentlichen Profile verlinkt sind, reicht eine E-Mail mit ein paar Stichpunkten völlig aus.
+                Auch wenn noch nicht alles fertig gedacht ist, reicht mir ein ehrlicher Überblick für den Start.
               </p>
             </div>
           </div>
@@ -317,8 +433,8 @@
       <div class="container-shell py-10">
         <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-lg">
-            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-600">Adem Yaren</p>
-            <p class="mt-3 text-sm leading-7 text-stone-600">Webentwicklung, Zusammenarbeit und direkter Austausch.</p>
+            <p class="site-mark">Adem Yaren</p>
+            <p class="mt-3 text-sm leading-7 text-stone-600">Weblösungen, Zusammenarbeit und ehrlicher Austausch.</p>
             <p class="mt-3 text-sm text-stone-600">&copy; 2026 Adem Yaren</p>
           </div>
 
