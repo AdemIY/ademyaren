@@ -11,7 +11,7 @@ export const siteConfig = {
     "Ich entwickle individuelle Websites, Onlineshops und digitale Lösungen für Gründer, kleine Unternehmen und Macher in ganz Deutschland.",
   ogDescription:
     "Persönliche Website von Adem Yaren mit Fokus auf Weblösungen, E-Commerce, langfristige Zusammenarbeit und ehrlichen Austausch.",
-  ogImagePath: "",
+  ogImagePath: "/assets/images/og/og-cover.png",
   navigation: [
     { label: "Start", href: "#start" },
     { label: "Leistungen", href: "#leistungen" },
