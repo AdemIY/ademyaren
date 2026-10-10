@@ -4,133 +4,87 @@ export function initNavigation() {
   const menuButton = query("[data-menu-button]");
   const menuCloseButton = query("[data-menu-close]");
   const menuPanel = query("[data-mobile-menu]");
-  const menuOverlay = query("[data-menu-overlay]");
-  const mobileLinks = queryAll("[data-mobile-nav-link]");
+  if (!menuButton || !(menuPanel instanceof HTMLDialogElement)) return;
 
-  if (!menuButton || !menuPanel || !menuOverlay) {
-    return;
-  }
+  let previousFocus = null;
+  const closeMenu = () => { if (menuPanel.open) menuPanel.close(); };
 
-  let isMenuOpen = false;
-  let lastFocusedElement = null;
-
-  const getFocusableElements = () =>
-    queryAll(
-      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
-      menuPanel,
-    );
-
-  const openMenu = () => {
-    lastFocusedElement = document.activeElement;
-    isMenuOpen = true;
+  menuButton.addEventListener("click", () => {
+    if (menuPanel.open) return;
+    previousFocus = document.activeElement;
+    menuPanel.showModal();
     menuButton.setAttribute("aria-expanded", "true");
-    menuOverlay.classList.remove("opacity-0", "pointer-events-none");
-    menuPanel.classList.remove("translate-x-full");
     document.body.classList.add("overflow-hidden");
     menuCloseButton?.focus();
-  };
-
-  const closeMenu = () => {
-    isMenuOpen = false;
-    menuButton.setAttribute("aria-expanded", "false");
-    menuOverlay.classList.add("opacity-0", "pointer-events-none");
-    menuPanel.classList.add("translate-x-full");
-    document.body.classList.remove("overflow-hidden");
-
-    if (lastFocusedElement instanceof HTMLElement) {
-      lastFocusedElement.focus();
-    }
-  };
-
-  const handleTabKey = (event) => {
-    if (!isMenuOpen || event.key !== "Tab") {
-      return;
-    }
-
-    const focusableElements = getFocusableElements();
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    if (!firstElement || !lastElement) {
-      return;
-    }
-
-    if (event.shiftKey && document.activeElement === firstElement) {
-      event.preventDefault();
-      lastElement.focus();
-    } else if (!event.shiftKey && document.activeElement === lastElement) {
-      event.preventDefault();
-      firstElement.focus();
-    }
-  };
-
-  menuButton.addEventListener("click", openMenu);
-  menuCloseButton?.addEventListener("click", closeMenu);
-  menuOverlay.addEventListener("click", closeMenu);
-  mobileLinks.forEach((link) => link.addEventListener("click", closeMenu));
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && isMenuOpen) {
-      closeMenu();
-      return;
-    }
-
-    handleTabKey(event);
   });
-}
-
-export function initSectionObserver() {
-  const sections = queryAll("main section[id]");
-  const navigationLinks = queryAll("[data-nav-link]");
-
-  if (!sections.length || !navigationLinks.length) {
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
-        const currentHash = `#${entry.target.id}`;
-
-        navigationLinks.forEach((link) => {
-          const isCurrent = link.getAttribute("href") === currentHash;
-
-          if (isCurrent) {
-            link.setAttribute("aria-current", "location");
-          } else {
-            link.removeAttribute("aria-current");
-          }
-        });
-      });
-    },
-    {
-      rootMargin: "-35% 0px -50% 0px",
-      threshold: 0.15,
-    },
-  );
-
-  sections.forEach((section) => observer.observe(section));
+  menuCloseButton?.addEventListener("click", closeMenu);
+  queryAll("[data-mobile-nav-link]").forEach((link) => link.addEventListener("click", closeMenu));
+  menuPanel.addEventListener("close", () => {
+    menuButton.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("overflow-hidden");
+    if (previousFocus instanceof HTMLElement) previousFocus.focus();
+  });
+  // Das native Dialog übernimmt Hintergrund-Inertheit und Escape.
+  // Die bisherige explizite Tab-Schleife bleibt auch am Rand des Dialogs erhalten.
+  menuPanel.addEventListener("keydown", (event) => {
+    if (event.key !== "Tab") return;
+    const focusable = queryAll('a[href], button:not([disabled]), [tabindex="0"]', menuPanel);
+    const first = focusable[0];
+    const last = focusable.at(-1);
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last?.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first?.focus();
+    }
+  });
+  menuPanel.addEventListener("click", (event) => {
+    if (event.target !== menuPanel) return;
+    const rect = menuPanel.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeMenu();
+  });
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", (event) => {
+    if (event.matches) closeMenu();
+  });
 }
 
 export function initHeaderState() {
   const header = query("[data-site-header]");
+  if (!header) return;
+  const update = () => header.toggleAttribute("data-scrolled", window.scrollY > 8);
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+}
 
-  if (!header) {
-    return;
-  }
-
-  const updateHeaderState = () => {
-    if (window.scrollY > 8) {
-      header.classList.add("shadow-sm", "shadow-stone-950/5");
-    } else {
-      header.classList.remove("shadow-sm", "shadow-stone-950/5");
-    }
+export function initLegacyLinks() {
+  if (document.body.dataset.page !== "home") return;
+  const movedSections = {
+    "#leistungen": "/webloesungen/#leistungen",
+    "#projekte": "/webloesungen/#projekte",
+    "#tech-stack": "/webloesungen/#tech-stack",
+    "#aktuelle-themen": "/ueber-mich/#aktuelle-themen",
   };
+  const resolveLegacyHash = () => {
+    const destination = movedSections[window.location.hash];
+    if (destination) window.location.replace(destination);
+  };
+  resolveLegacyHash();
+  window.addEventListener("hashchange", resolveLegacyHash);
+}
 
-  updateHeaderState();
-  window.addEventListener("scroll", updateHeaderState, { passive: true });
+export function initContactContext() {
+  const topic = new URLSearchParams(window.location.search).get("anliegen");
+  queryAll("[data-contact-topic]").forEach((link) => {
+    if (link.dataset.contactTopic === topic) {
+      // Die vorausgewählte Anfrage bleibt trotz kompakter Seitenübersicht direkt erreichbar.
+      const section = link.closest(".section-accordion");
+      if (section) section.open = true;
+      link.setAttribute("data-selected", "");
+      const hint = document.createElement("span");
+      hint.className = "sr-only";
+      hint.textContent = " – Dein ausgewähltes Anliegen";
+      link.append(hint);
+    }
+  });
 }

@@ -1,138 +1,119 @@
-import { siteConfig } from "../src/data/site.js";
-
-function escapeHtml(value) {
-  return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-}
-
-function escapeAttribute(value) {
-  return escapeHtml(value).replaceAll('"', "&quot;").replaceAll("'", "&#39;");
-}
-
-function trimTrailingSlashes(value) {
-  return value.replace(/\/+$/, "");
-}
+import { siteConfig, pages } from "../src/data/site.js";
+import { renderHeader, renderFooter } from "../src/assets/js/modules/render-layout.js";
+import { renderContentTokens } from "../src/assets/js/modules/render-sections.js";
+import { renderPageContentTokens } from "../src/assets/js/modules/render-page-sections.js";
+import { escapeHtml } from "../src/assets/js/modules/html.js";
 
 function getSiteUrl() {
-  const rawUrl = siteConfig.siteUrl.trim();
-  return rawUrl ? trimTrailingSlashes(rawUrl) : "";
+  return siteConfig.siteUrl.trim().replace(/\/+$/, "");
 }
 
 export function getCustomDomain() {
-  const siteUrl = getSiteUrl();
-
-  if (!siteUrl) {
-    return "";
-  }
-
-  return new URL(siteUrl).hostname;
+  return getSiteUrl() ? new URL(getSiteUrl()).hostname : "";
 }
 
 function toAbsoluteUrl(pathname) {
-  const siteUrl = getSiteUrl();
-
-  if (!siteUrl) {
-    return "";
-  }
-
-  const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
-  return `${siteUrl}${normalizedPath}`;
+  return getSiteUrl() ? new URL(pathname, getSiteUrl()).href : "";
 }
 
-function buildOptionalTag(markup) {
-  return markup ? `${markup}` : "";
-}
-
-export function renderHtmlTemplate(template) {
-  const canonicalUrl = toAbsoluteUrl("/");
+function pageHead(page) {
+  const canonicalUrl = toAbsoluteUrl(page.path);
   const ogImageUrl = siteConfig.ogImagePath ? toAbsoluteUrl(siteConfig.ogImagePath) : "";
-  const goatcounterUrl = siteConfig.goatcounterUrl?.trim() ?? "";
-  const replacements = {
-    LANGUAGE: escapeAttribute(siteConfig.language),
-    SITE_NAME: escapeHtml(siteConfig.siteName),
-    PAGE_TITLE: escapeHtml(siteConfig.pageTitle),
-    META_DESCRIPTION: escapeAttribute(siteConfig.metaDescription),
-    THEME_COLOR: escapeAttribute(siteConfig.themeColor),
-    OG_LOCALE: escapeAttribute(siteConfig.locale),
-    OG_TITLE: escapeAttribute(siteConfig.pageTitle),
-    OG_DESCRIPTION: escapeAttribute(siteConfig.ogDescription),
-    CANONICAL_TAG: buildOptionalTag(
-      canonicalUrl ? `<link rel="canonical" href="${escapeAttribute(canonicalUrl)}" />` : "",
-    ),
-    OG_URL_TAG: buildOptionalTag(
-      canonicalUrl ? `<meta property="og:url" content="${escapeAttribute(canonicalUrl)}" />` : "",
-    ),
-    OG_IMAGE_TAG: buildOptionalTag(
-      ogImageUrl ? `<meta property="og:image" content="${escapeAttribute(ogImageUrl)}" />` : "",
-    ),
-    ANALYTICS_TAG: buildOptionalTag(
-      goatcounterUrl
-        ? `<script data-goatcounter="${escapeAttribute(goatcounterUrl)}" async src="//gc.zgo.at/count.js"></script>`
-        : "",
-    ),
-    EMAIL: escapeHtml(siteConfig.email),
-    MAILTO_EMAIL: escapeAttribute(`mailto:${siteConfig.email}`),
-    CURRENT_YEAR: String(new Date().getFullYear()),
-  };
+  return `<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${escapeHtml(page.title)}</title>
+    <meta name="description" content="${escapeHtml(page.description)}" />
+    <meta name="theme-color" content="${escapeHtml(siteConfig.themeColor)}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="${escapeHtml(siteConfig.locale)}" />
+    <meta property="og:site_name" content="${escapeHtml(siteConfig.siteName)}" />
+    <meta property="og:title" content="${escapeHtml(page.title)}" />
+    <meta property="og:description" content="${escapeHtml(page.description)}" />
+    ${canonicalUrl ? `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" /><meta property="og:url" content="${escapeHtml(canonicalUrl)}" />` : ""}
+    ${ogImageUrl ? `<meta property="og:image" content="${escapeHtml(ogImageUrl)}" /><meta property="og:image:alt" content="Adem Yaren" />` : ""}
+    <script src="/assets/js/theme-init.js"></script>
+    ${analyticsTag()}
+    <link rel="icon" href="/assets/icons/ui/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />`;
+}
 
-  return Object.entries(replacements).reduce(
-    (output, [key, value]) => output.replaceAll(`{{${key}}}`, value),
-    template,
-  );
+function analyticsTag() {
+  const endpoint = siteConfig.goatcounterUrl?.trim();
+  return endpoint ? `<script data-goatcounter="${escapeHtml(endpoint)}" async src="https://gc.zgo.at/count.js"></script>` : "";
+}
+
+export function renderHtmlTemplate(template, pageId = "home") {
+  const page = pages.find((entry) => entry.id === pageId || entry.file === pageId);
+  if (!page) throw new Error(`Unbekannte Seite: ${pageId}`);
+  const canonicalUrl = toAbsoluteUrl(page.path);
+  const replacements = {
+    LANGUAGE: () => escapeHtml(siteConfig.language),
+    SITE_NAME: () => escapeHtml(siteConfig.siteName),
+    PAGE_HEAD: () => pageHead(page),
+    SITE_HEADER: () => renderHeader(page.id),
+    SITE_FOOTER: renderFooter,
+    PAGE_TITLE: () => escapeHtml(page.title),
+    META_DESCRIPTION: () => escapeHtml(page.description),
+    THEME_COLOR: () => escapeHtml(siteConfig.themeColor),
+    OG_LOCALE: () => escapeHtml(siteConfig.locale),
+    OG_TITLE: () => escapeHtml(page.title),
+    OG_DESCRIPTION: () => escapeHtml(page.description),
+    CANONICAL_TAG: () => canonicalUrl ? `<link rel="canonical" href="${escapeHtml(canonicalUrl)}" />` : "",
+    ANALYTICS_TAG: analyticsTag,
+    EMAIL: () => escapeHtml(siteConfig.email),
+    MAILTO_EMAIL: () => escapeHtml(`mailto:${siteConfig.email}`),
+    CURRENT_YEAR: () => String(new Date().getFullYear()),
+    ...renderContentTokens(),
+    ...renderPageContentTokens(),
+  };
+  return template.replace(/\{\{([A-Z_]+)\}\}/g, (token, key) => {
+    if (!replacements[key]) throw new Error(`Unbekannter Template-Platzhalter: ${token}`);
+    return replacements[key]();
+  }).replace(/[ \t]+$/gm, "");
 }
 
 export function buildRobotsTxt() {
-  const siteUrl = getSiteUrl();
-  const sitemapLine = siteUrl ? `\nSitemap: ${siteUrl}/sitemap.xml` : "";
-
-  return `User-agent: *\nAllow: /\n${sitemapLine}\n`;
+  return `User-agent: *\nAllow: /\n\n${getSiteUrl() ? `Sitemap: ${getSiteUrl()}/sitemap.xml\n` : ""}`;
 }
 
 export function buildSitemapXml() {
-  const siteUrl = getSiteUrl();
-
-  if (!siteUrl) {
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n</urlset>\n`;
-  }
-
-  const lastmod = new Date().toISOString().slice(0, 10);
-  const entries = ["/", "/impressum.html", "/datenschutz.html"]
-    .map(
-      (pathname) => `  <url>
-    <loc>${escapeHtml(toAbsoluteUrl(pathname))}</loc>
-    <lastmod>${lastmod}</lastmod>
+  const entries = getSiteUrl() ? pages.map((page) => `  <url>
+    <loc>${escapeHtml(toAbsoluteUrl(page.path))}</loc>
     <changefreq>monthly</changefreq>
-    <priority>${pathname === "/" ? "1.0" : "0.3"}</priority>
-  </url>`,
-    )
-    .join("\n");
-
+    <priority>${page.id === "home" ? "1.0" : page.label ? "0.7" : "0.3"}</priority>
+  </url>`).join("\n") : "";
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
 }
 
 export function buildManifestJson() {
-  return `${JSON.stringify(
-    {
-      name: siteConfig.siteName,
-      short_name: siteConfig.shortName,
-      lang: siteConfig.language,
-      start_url: "./",
-      display: "standalone",
-      background_color: siteConfig.themeColor,
-      theme_color: siteConfig.themeColor,
-      icons: [
-        {
-          src: "./assets/icons/ui/favicon.svg",
-          sizes: "any",
-          type: "image/svg+xml",
-        },
-      ],
-    },
-    null,
-    2,
-  )}\n`;
+  return `${JSON.stringify({
+    name: siteConfig.siteName,
+    short_name: siteConfig.shortName,
+    lang: siteConfig.language,
+    start_url: "/",
+    display: "standalone",
+    background_color: siteConfig.themeColor,
+    theme_color: siteConfig.themeColor,
+    icons: [{ src: "/assets/icons/ui/favicon.svg", sizes: "any", type: "image/svg+xml" }],
+  }, null, 2)}\n`;
 }
 
 export function buildCname() {
-  const customDomain = getCustomDomain();
-  return customDomain ? `${customDomain}\n` : "";
+  return getCustomDomain() ? `${getCustomDomain()}\n` : "";
+}
+
+// GitHub Pages hat keine konfigurierbaren HTTP-Weiterleitungen.
+// Statische Kompatibilitätsseiten erhalten Suchparameter und Abschnittsanker per JS.
+export function renderLegacyRedirect(page) {
+  const destination = escapeHtml(page.path);
+  return `<!doctype html>
+<html lang="de"><head><meta charset="utf-8" />
+<title>Weiterleitung | Adem Yaren</title>
+<link rel="canonical" href="${escapeHtml(toAbsoluteUrl(page.path))}" />
+<meta name="robots" content="noindex" />
+<script>window.location.replace(${JSON.stringify(page.path)} + window.location.search + window.location.hash);</script>
+<noscript><meta http-equiv="refresh" content="0;url=${destination}" /></noscript>
+</head><body><p><a href="${destination}">Zur neuen Seite</a></p></body></html>
+`;
 }

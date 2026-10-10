@@ -4,10 +4,15 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "dev:css": "tailwindcss -i ./src/assets/css/input.css -o ./src/assets/css/styles.css --watch",
-    "preview": "node scripts/preview-server.mjs src 4173",
+    "preview": "node --watch --watch-preserve-output scripts/preview-server.mjs src 4173",
     "preview:docs": "node scripts/preview-server.mjs docs 4174",
     "build:css": "tailwindcss -i ./src/assets/css/input.css -o ./src/assets/css/styles.css --minify",
-    "build": "npm run build:css && node scripts/build-static.mjs"
+    "build": "npm run build:css && node scripts/build-static.mjs",
+    "check": "node scripts/check-site.mjs",
+    "check:dev": "node scripts/check-dev.mjs",
+    "check:timeline": "node scripts/check-timeline.mjs",
+    "check:coaching": "node scripts/check-coaching.mjs",
+    "check:accordions": "node scripts/check-accordions.mjs"
   },
   "dependencies": {
     "@openai/codex": "^0.115.0"

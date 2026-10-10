@@ -1,13 +1,14 @@
-import { initNavigation, initSectionObserver, initHeaderState } from "./modules/navigation.js";
+import { initNavigation, initHeaderState, initLegacyLinks, initContactContext } from "./modules/navigation.js";
 import { initRevealAnimations } from "./modules/motion.js";
 import { initThemeToggle } from "./modules/theme.js";
-import { renderDynamicSections } from "./modules/render-sections.js";
+import { initSectionAccordions } from "./modules/accordions.js";
+import { initTimelineAnimations } from "./modules/timeline.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  initThemeToggle();
-  renderDynamicSections();
-  initRevealAnimations();
-  initNavigation();
-  initSectionObserver();
-  initHeaderState();
-});
+initThemeToggle();
+initNavigation();
+initHeaderState();
+initLegacyLinks();
+initContactContext();
+initSectionAccordions();
+initRevealAnimations();
+initTimelineAnimations();

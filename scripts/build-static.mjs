@@ -1,7 +1,8 @@
 import { cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildCname, buildManifestJson, buildRobotsTxt, buildSitemapXml, renderHtmlTemplate } from "./site-output.mjs";
+import { buildCname, buildManifestJson, buildRobotsTxt, buildSitemapXml, renderHtmlTemplate, renderLegacyRedirect } from "./site-output.mjs";
+import { pages } from "../src/data/site.js";
 
 const currentFile = fileURLToPath(import.meta.url);
 const rootDir = resolve(dirname(currentFile), "..");
@@ -16,16 +17,18 @@ async function writeRenderedHtmlFile(sourceName, targetName = sourceName) {
   const sourcePath = join(srcDir, sourceName);
   const targetPath = join(docsDir, targetName);
   const template = await readFile(sourcePath, "utf8");
-  await writeFile(targetPath, renderHtmlTemplate(template), "utf8");
+  await ensureDirectory(dirname(targetPath));
+  await writeFile(targetPath, renderHtmlTemplate(template, sourceName), "utf8");
 }
 
 async function build() {
   await ensureDirectory(docsDir);
   await cp(join(srcDir, "assets"), join(docsDir, "assets"), { recursive: true, force: true });
   await cp(join(srcDir, "data"), join(docsDir, "data"), { recursive: true, force: true });
-  await writeRenderedHtmlFile("index.html");
-  await writeRenderedHtmlFile("impressum.html");
-  await writeRenderedHtmlFile("datenschutz.html");
+  for (const page of pages) {
+    await writeRenderedHtmlFile(page.file, page.path === "/" ? "index.html" : `${page.path.slice(1)}index.html`);
+    if (page.path !== "/") await writeFile(join(docsDir, page.file), renderLegacyRedirect(page), "utf8");
+  }
   await writeFile(join(docsDir, "robots.txt"), buildRobotsTxt(), "utf8");
   await writeFile(join(docsDir, "sitemap.xml"), buildSitemapXml(), "utf8");
   await writeFile(join(docsDir, "site.webmanifest"), buildManifestJson(), "utf8");

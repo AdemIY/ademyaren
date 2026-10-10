@@ -1,38 +1,27 @@
-export const services = [
+export const webServices = [
   {
-    id: "websites",
-    label: "Auftritt",
-    title: "Websites & digitale Auftritte",
-    description:
-      "Websites und Landingpages, die klar zeigen, wer du bist, was du anbietest und warum man mit dir sprechen sollte.",
-    useCases: [
-      "Neue Websites und Landingpages umsetzen.",
-      "Bestehende Auftritte strukturieren und schärfen.",
-      "Inhalte, Nutzerführung und Technik sauber zusammenbringen.",
-    ],
+    id: "webseiten",
+    title: "Webseiten",
+    description: "Moderne, responsive Webseiten und Landingpages. Klar aufgebaut, einfach zu bedienen und mit der Technik, die dein Vorhaben wirklich braucht.",
   },
   {
-    id: "commerce",
-    label: "Commerce",
-    title: "Onlineshops & E-Commerce-Frontend",
-    description:
-      "Shopify-, Magento- und Frontend-Arbeit für Shops, die nicht nur laufen, sondern klarer und stärker werden sollen.",
-    useCases: [
-      "Shopify-Shops anpassen und weiterentwickeln.",
-      "Magento-2-Frontends im Hyvä Theme umsetzen.",
-      "Shop-Oberflächen sauber an Marke, Struktur und Conversion ausrichten.",
-    ],
+    id: "individualsoftware",
+    title: "Individualsoftware",
+    description: "Individuelle Anwendungen für deine Anforderungen und Geschäftsprozesse. Dort, wo Standardsoftware nicht ausreicht oder dich im Alltag ausbremst.",
   },
   {
-    id: "zusammenarbeit",
-    label: "Zusammenarbeit",
-    title: "Technische Zusammenarbeit & Weiterentwicklung",
-    description:
-      "Für Projekte, die mehr brauchen als reine Umsetzung: mitdenken, sauber arbeiten und langfristig dranbleiben.",
-    useCases: [
-      "Bestehende Projekte weiterentwickeln.",
-      "Technische Engpässe im Alltag auffangen.",
-      "Zwischen Design, Technik und Umsetzung verlässlich mitziehen.",
-    ],
+    id: "api-entwicklung",
+    title: "API-Entwicklung",
+    description: "APIs entwickeln und integrieren, damit Anwendungen und Dienste zuverlässig miteinander kommunizieren und Daten austauschen können.",
+  },
+  {
+    id: "middleware",
+    title: "Middleware",
+    description: "Systeme miteinander verbinden, Datenflüsse strukturieren und wiederkehrende Prozesse automatisieren. Damit weniger Handarbeit zwischen deinen Anwendungen nötig ist.",
+  },
+  {
+    id: "beratung",
+    title: "Beratung für Weblösungen",
+    description: "Du kommst mit einem Problem oder einer Idee. Gemeinsam schauen wir, welche technische Lösung sinnvoll ist – du musst vorher keine Technologie auswählen.",
   },
 ];

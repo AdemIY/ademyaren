@@ -3,7 +3,7 @@ export const projects = [
     id: "project-01",
     title: "Mädchenkram Lippe",
     purpose: "Buchungsplattform",
-    shortContext: "Eine Event-Seite mit Login, Buchung und PayPal-Anbindung umgesetzt.",
+    shortContext: "Verkäuferinnen können ihre Tische online reservieren, verwalten und über PayPal bezahlen.",
     description:
       "Für Mädchenkram Lippe eine Buchungsplattform entwickelt, über die Verkäuferinnen ihre Tische für Flohmarkt-Events online reservieren und verwalten können. Dazu gehörten Datenbankdesign, CRUD-Funktionen, Login-System, Buchungslogik, PayPal-Einbindung, E-Mail-Versand sowie UI und UX im Frontend, vollständig mit Vanilla PHP umgesetzt.",
     stack: ["Vanilla PHP", "Datenbankdesign", "CRUD", "Login-System", "Buchungssystem", "PayPal"],

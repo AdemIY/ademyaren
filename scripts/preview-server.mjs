@@ -1,7 +1,8 @@
+import { pages } from "../src/data/site.js";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { existsSync, watch } from "node:fs";
-import { extname, join, normalize, resolve } from "node:path";
+import { basename, extname, join, normalize, relative, resolve, sep } from "node:path";
 import { buildManifestJson, buildRobotsTxt, buildSitemapXml, renderHtmlTemplate } from "./site-output.mjs";
 
 const [, , rootArg = "src", portArg = "4173"] = process.argv;
@@ -19,6 +20,7 @@ const mimeTypes = {
   ".svg": "image/svg+xml",
   ".txt": "text/plain; charset=utf-8",
   ".webmanifest": "application/manifest+json; charset=utf-8",
+  ".woff2": "font/woff2",
   ".xml": "application/xml; charset=utf-8",
 };
 
@@ -26,6 +28,11 @@ const liveReloadSnippet = `
 <script>
   (() => {
     const events = new EventSource("/__live-reload");
+    let reconnecting = false;
+    events.onerror = () => { reconnecting = true; };
+    events.onopen = () => {
+      if (reconnecting) window.location.reload();
+    };
     events.onmessage = (event) => {
       if (event.data === "reload") {
         window.location.reload();
@@ -41,8 +48,9 @@ function getMimeType(pathname) {
 
 function resolvePath(urlPathname) {
   const cleanPath = urlPathname === "/" ? "/index.html" : urlPathname;
-  const relativePath = normalize(cleanPath).replace(/^(\.\.(\/|\\|$))+/, "");
-  return join(rootDir, relativePath);
+  const filePath = resolve(rootDir, `.${normalize(decodeURIComponent(cleanPath))}`);
+  const relativePath = relative(rootDir, filePath);
+  return relativePath === ".." || relativePath.startsWith(`..${sep}`) ? null : filePath;
 }
 
 function broadcastReload() {
@@ -92,9 +100,23 @@ const server = createServer(async (request, response) => {
     return;
   }
 
-  const filePath = resolvePath(url.pathname);
+  const page = pages.find((entry) => url.pathname === entry.path || url.pathname === entry.path.replace(/\/$/, "") || url.pathname === `/${entry.file}`);
+  if (page && url.pathname !== page.path) {
+    response.writeHead(301, { Location: page.path + url.search });
+    response.end();
+    return;
+  }
 
-  if (!existsSync(filePath)) {
+  let filePath;
+  try {
+    filePath = resolvePath(page ? (rootArg === "src" ? `/${page.file}` : page.path === "/" ? "/index.html" : `${page.path}index.html`) : url.pathname);
+  } catch {
+    response.writeHead(400, { "Content-Type": "text/plain; charset=utf-8" });
+    response.end("400 - Ungültiger Pfad");
+    return;
+  }
+
+  if (!filePath || !existsSync(filePath)) {
     response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
     response.end("404 - Datei nicht gefunden");
     return;
@@ -105,7 +127,9 @@ const server = createServer(async (request, response) => {
     const mimeType = getMimeType(filePath);
 
     if (mimeType.startsWith("text/html")) {
-      const html = renderHtmlTemplate(fileBuffer.toString("utf8")).replace("</body>", `${liveReloadSnippet}</body>`);
+      const template = fileBuffer.toString("utf8");
+      const rendered = template.includes("{{") ? renderHtmlTemplate(template, basename(filePath)) : template;
+      const html = rendered.replace("</body>", `${liveReloadSnippet}</body>`);
       response.writeHead(200, { "Content-Type": mimeType });
       response.end(html);
       return;
