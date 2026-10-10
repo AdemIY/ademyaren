@@ -22,8 +22,8 @@ export const pages = [
   { id: "sparemitadem", file: "sparemitadem.html", path: "/sparemitadem/", label: "SparenMitAdem", title: "SparenMitAdem – Geld & Konsum bewusst gestalten | Adem Yaren", description: "Verstehe deine Ausgaben mit persönlicher 1:1-Begleitung, Workbook und wöchentlichem Call. Erfahre mehr über Kosten, Ablauf und dein kostenloses Erstgespräch." },
   { id: "ueber-mich", file: "ueber-mich.html", path: "/ueber-mich/", label: "Über mich", title: "Über mich – Entwickler & Problemlöser | Adem Yaren", description: "Ich bin Adem Yaren. Ich entwickle Software, baue eigene Ideen auf und beschäftige mich mit Geld und Konsum. Lerne mich und meine Arbeitsweise kennen." },
   { id: "kontakt", file: "kontakt.html", path: "/kontakt/", label: "Kontakt", title: "Kontakt – Lass uns sprechen | Adem Yaren", description: "Du hast ein Webprojekt, interessierst dich für SparenMitAdem oder möchtest dich austauschen? Schreib Adem Yaren direkt per E-Mail." },
-  { id: "impressum", file: "impressum.html", path: "/impressum/", title: "Impressum | Adem Yaren", description: "Impressumsseite und Kontaktangaben von Adem Yaren. Die vollständigen Pflichtangaben stehen noch aus." },
-  { id: "datenschutz", file: "datenschutz.html", path: "/datenschutz/", title: "Datenschutz | Adem Yaren", description: "Datenschutzseite von Adem Yaren. Die vollständigen Angaben zu den eingesetzten Diensten stehen noch aus." },
+  { id: "impressum", file: "impressum.html", path: "/impressum/", title: "Impressum | Adem Yaren", description: "Impressum von Adem Yaren mit Anbieteranschrift und Kontaktangaben." },
+  { id: "datenschutz", file: "datenschutz.html", path: "/datenschutz/", title: "Datenschutz | Adem Yaren", description: "Informationen zur Verarbeitung personenbezogener Daten bei Hosting, E-Mail-Kontakt, Besucherstatistik und Darstellungseinstellungen." },
 ];
 
 export const navigation = pages.filter((page) => page.label).map(({ id, path, label }) => ({ id, href: path, label }));

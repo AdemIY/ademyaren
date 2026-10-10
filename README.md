@@ -163,7 +163,11 @@ Der vorhandene GoatCounter-Endpunkt bleibt in `siteConfig.goatcounterUrl` konfig
 
 ## Bestehende offene Inhalte
 
-Impressum und Datenschutz enthalten weiterhin die bereits vorhandenen Platzhaltertexte. Fehlende Angaben wurden nicht erfunden. Die Social-Profil-URLs können in der vorbereiteten Liste selbst gepflegt werden.
+Impressum und Datenschutzhinweise verwenden die Betreiberangaben und Textabschnitte in `src/data/legal.js`. Die Anschrift und E-Mail stehen auf beiden Seiten ohne Accordion sichtbar. Die Texte sind ein Entwurf anhand der Betreiberangaben und Anbieterinformationen, keine verbindliche Rechtsprüfung.
+
+Vor Veröffentlichung prüfen: Rechtsgrundlage der Statistik einschließlich § 25 TDDDG, erforderliche Anbietervereinbarungen und Drittlandtransfers sowie eventuell zusätzliche Pflichtangaben im Impressum. Die GoatCounter-Option „Collect individual pageviews“ ist laut Betreiber deaktiviert; der Datenschutztext beschreibt zusammengefasste Statistiken. Normales Gmail wurde bestätigt; ein Google-Workspace-Auftragsverarbeitungsvertrag wurde nicht behauptet. Eine weitere Möglichkeit zur unmittelbaren Kontaktaufnahme wurde noch nicht angegeben.
+
+Die vereinbarte Löschregel betrifft erledigte Anfragen ohne weiteren Aufbewahrungszweck. Sie muss im Gmail-Postfach tatsächlich umgesetzt werden; der Website-Build löscht keine E-Mails. Erforderliche Vertragsunterlagen und gesetzliche Aufbewahrungspflichten werden ausgenommen.
 
 ## URLs ohne Dateiendung
 

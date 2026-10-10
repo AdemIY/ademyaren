@@ -1,5 +1,6 @@
 import { siteConfig } from "../../../data/site.js";
-import { numberLabel } from "./html.js";
+import { legalContact, privacySections } from "../../../data/legal.js";
+import { escapeHtml as e, numberLabel } from "./html.js";
 import { renderAccordionSection } from "./render-accordion.js";
 import {
   textLink, renderServices, renderProjects, renderTechStack,
@@ -76,30 +77,24 @@ export function renderContactSections() {
   ]);
 }
 
+export function renderLegalAddress() {
+  return `<p class="section-lead">${e(legalContact.name)}<br />${e(legalContact.street)}<br />${e(legalContact.postalCode)} ${e(legalContact.city)}<br />${e(legalContact.country)}</p>${textLink(`mailto:${siteConfig.email}`, siteConfig.email, "text-link mt-8")}`;
+}
+
 export function renderImprintSections() {
   return renderPageSections([
     {
-      id: "benoetigte-angaben", label: "Benötigte Angaben",
-      content: `<ul class="plain-list"><li>Name oder Firmenbezeichnung</li><li>ladungsfähige Anschrift</li><li>vertretungsberechtigte Person, falls nötig</li><li>weitere Pflichtangaben je nach Tätigkeit</li></ul>`,
-    },
-    {
-      id: "aktueller-kontakt", label: "Aktueller Kontakt",
-      content: `<p class="section-lead">Bis die finalen Angaben vorliegen, ist eine Rückfrage per E-Mail möglich.</p>${textLink(`mailto:${siteConfig.email}`, siteConfig.email)}`,
+      id: "aktueller-kontakt", label: "Kontakt",
+      content: `<p class="section-lead">Fragen zur Website oder zu meinen Angeboten kannst du direkt per E-Mail an mich richten.</p>${textLink(`mailto:${siteConfig.email}`, siteConfig.email)}`,
     },
   ]);
 }
 
 export function renderPrivacySections() {
-  return renderPageSections([
-    {
-      id: "typische-inhalte", label: "Typische Inhalte",
-      content: `<ul class="plain-list"><li>verantwortliche Stelle</li><li>Hosting und Server-Logs</li><li>Kontaktaufnahme per E-Mail</li><li>eingesetzte externe Dienste oder eingebettete Inhalte</li></ul>`,
-    },
-    {
-      id: "aktueller-kontakt", label: "Aktueller Kontakt",
-      content: `<p class="section-lead">Für Rückfragen ist bis zur finalen Fassung die Kontaktaufnahme per E-Mail möglich.</p>${textLink(`mailto:${siteConfig.email}`, siteConfig.email)}`,
-    },
-  ]);
+  return renderPageSections(privacySections.map(({ id, label, paragraphs, links = [] }) => ({
+    id, label,
+    content: `<div class="prose-content">${paragraphs.map((paragraph) => `<p class="section-lead">${e(paragraph)}</p>`).join("")}${links.map(({ href, label: linkLabel }) => textLink(href, linkLabel, "text-link mt-8")).join("")}</div>`,
+  })));
 }
 
 export function renderPageContentTokens() {
@@ -107,6 +102,7 @@ export function renderPageContentTokens() {
     WEB_SECTIONS: renderWebSections,
     SAVING_SECTIONS: renderSavingSections,
     CONTACT_SECTIONS: renderContactSections,
+    LEGAL_ADDRESS: renderLegalAddress,
     IMPRINT_SECTIONS: renderImprintSections,
     PRIVACY_SECTIONS: renderPrivacySections,
   };
